@@ -1,23 +1,29 @@
 package com.leosimas.mvvm.movies.model;
 
-import java.util.Date;
+import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
+import java.util.Date;
+import java.util.List;
+
+@Parcel
 public class Movie {
 
     protected int id;
     protected String title;
-//    @SerializedName("original_title")
+    @SerializedName("original_title")
     protected String originalTitle;
     protected String overview;
-//    @SerializedName("release_date")
+    @SerializedName("release_date")
     protected Date releaseDate;
-//    @SerializedName("poster_path")
+    @SerializedName("poster_path")
     protected String posterPath;
-//    @SerializedName("backdrop_path")
+    @SerializedName("backdrop_path")
     protected String backdropPath;
-//    @SerializedName("genre_ids")
-//    protected int[] genreIds;
-//    protected List<Genre> genres;
+    @SerializedName("genre_ids")
+    protected int[] genreIds;
+    protected List<Genre> genres;
 
     public int getId() {
         return id;
@@ -75,4 +81,19 @@ public class Movie {
         this.backdropPath = backdropPath;
     }
 
+    public int[] getGenreIds() {
+        return genreIds;
+    }
+
+    public void setGenreIds(int[] genreIds) {
+        this.genreIds = genreIds;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
 }

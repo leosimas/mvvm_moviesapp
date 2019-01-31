@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Mvvm Movies</string>
+    <string name="try_again_refresh">Something went wrong. Tap to try again.</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="search">Search</string>
+    <string name="no_movie_found">No movie found</string>
+    <string name="type_movie_name">Type a movie name</string>
 </resources>

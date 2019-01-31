@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margin_medium"
+    android:background="?android:attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/imagePoster"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:scaleType="fitCenter"
+        android:layout_marginEnd="@dimen/margin_medium"
+        />
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/imagePoster"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        tools:text="movie title here" />
+
+    <TextView
+        android:id="@+id/textOriginalTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/textTitle"
+        android:layout_below="@id/textTitle"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_marginBottom="@dimen/margin_small"
+        tools:text="original movie title here" />
+
+    <TextView
+        android:id="@+id/textGenres"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/textTitle"
+        android:layout_below="@id/textOriginalTitle"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_marginTop="@dimen/margin_small"
+        tools:text="action, comedy..." />
+
+    <TextView
+        android:id="@+id/textReleaseDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textGenres"
+        android:layout_alignStart="@id/textTitle"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/margin_small"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textAlignment="textEnd"
+        android:textStyle="italic"
+        tools:text="2019/01/10" />
+
+</RelativeLayout>
