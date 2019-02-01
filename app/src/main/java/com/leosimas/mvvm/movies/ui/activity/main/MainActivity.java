@@ -18,6 +18,7 @@ import com.leosimas.mvvm.movies.bean.Movie;
 import com.leosimas.mvvm.movies.ui.adapter.MoviesViewAdapter;
 import com.leosimas.mvvm.movies.ui.view.InfiniteRecyclerView;
 import com.leosimas.mvvm.movies.util.AppUtils;
+import com.leosimas.mvvm.movies.viewmodel.MessageLiveData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -117,13 +118,11 @@ public class MainActivity extends AppCompatActivity {
                 changeSearchMode(isSearchState);
             }
         });
-        mainViewModel.getToastMessage().observe(this, new Observer<Integer>() {
+        mainViewModel.getToastMessage().observe(this, new MessageLiveData.MessageObserver() {
             @Override
-            public void onChanged(Integer resString) {
+            public void onNewMessage(int resString) {
                 Log.d(TAG, "observe toast: " + resString);
-                if (resString != null) {
-                    AppUtils.showToastShort(MainActivity.this, resString);
-                }
+                AppUtils.showToastShort(MainActivity.this, resString);
             }
         });
     }

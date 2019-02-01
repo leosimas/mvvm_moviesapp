@@ -12,7 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 public class BaseViewModel extends AndroidViewModel {
 
     private MutableLiveData<ViewState> viewState = new MutableLiveData<>();
-    protected MutableLiveData<Integer> toastMessage = new SingleLiveEvent<>();
+    protected MessageLiveData toastMessage = new MessageLiveData();
 
     public BaseViewModel(@NonNull Application application) {
         super(application);
@@ -22,7 +22,7 @@ public class BaseViewModel extends AndroidViewModel {
         return viewState;
     }
 
-    public LiveData<Integer> getToastMessage() {
+    public MessageLiveData getToastMessage() {
         return toastMessage;
     }
 
