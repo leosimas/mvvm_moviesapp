@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.leosimas.mvvm.movies.GlideApp;
 import com.leosimas.mvvm.movies.R;
 import com.leosimas.mvvm.movies.bean.Movie;
-import com.leosimas.mvvm.movies.service.MoviesAPI;
 import com.leosimas.mvvm.movies.ui.view.movie.MovieView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -50,7 +49,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         textOverview.setText(movie.getOverview());
 
-        String backdropUrl = MoviesAPI.getBackdropFullUrl(movie);
+        String backdropUrl = movie.getBackdropFullUrl();
         if ( backdropUrl != null ) {
             GlideApp.with(this)
                 .load( backdropUrl )

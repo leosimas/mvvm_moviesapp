@@ -93,18 +93,18 @@ public class MoviesAPI {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public static String getPosterFullUrl(Movie movie) {
+    private void fillPosterFullUrl(Movie movie) {
         if (movie.getPosterPath() == null) {
-            return null;
+            movie.setPosterFullUrl(null);
         }
-        return BASE_IMAGES_URL + "/w300" + movie.getPosterPath();
+        movie.setPosterFullUrl(BASE_IMAGES_URL + "/w300" + movie.getPosterPath());
     }
 
-    public static String getBackdropFullUrl(Movie movie) {
+    private void fillBackdropFullUrl(Movie movie) {
         if (movie.getBackdropPath() == null) {
-            return null;
+            movie.setBackdropFullUrl(null);
         }
-        return BASE_IMAGES_URL + "/w500" + movie.getBackdropPath();
+        movie.setBackdropFullUrl(BASE_IMAGES_URL + "/w500" + movie.getBackdropPath());
     }
 
     private Map<String, String> createQueryMap() {
@@ -131,13 +131,13 @@ public class MoviesAPI {
 
             @Override
             public void after(MoviePage result) {
-                fillGenres(result.getResults());
+                fillMoviesData(result.getResults());
             }
         });
         return callAdapter;
     }
 
-    private void fillGenres(List<Movie> movies) {
+    private void fillMoviesData(List<Movie> movies) {
         if (movies == null) {
             return;
         }
@@ -148,6 +148,9 @@ public class MoviesAPI {
                 list.add( genres.get(genreId) );
             }
             m.setGenres( list );
+
+            fillBackdropFullUrl(m);
+            fillPosterFullUrl(m);
         }
     }
 

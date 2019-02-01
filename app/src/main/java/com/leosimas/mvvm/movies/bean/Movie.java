@@ -23,6 +23,9 @@ public class Movie {
     protected String backdropPath;
     @SerializedName("genre_ids")
     protected int[] genreIds;
+
+    protected String posterFullUrl;
+    protected String backdropFullUrl;
     protected List<Genre> genres;
 
     public int getId() {
@@ -95,5 +98,21 @@ public class Movie {
 
     public void setGenres(List<Genre> genres) {
         this.genres = genres;
+    }
+
+    public String getPosterFullUrl() {
+        return posterFullUrl;
+    }
+
+    public void setPosterFullUrl(String posterFullUrl) {
+        this.posterFullUrl = posterFullUrl;
+    }
+
+    public String getBackdropFullUrl() {
+        return backdropFullUrl;
+    }
+
+    public void setBackdropFullUrl(String backdropFullUrl) {
+        this.backdropFullUrl = backdropFullUrl;
     }
 }

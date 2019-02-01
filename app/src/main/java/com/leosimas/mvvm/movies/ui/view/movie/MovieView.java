@@ -12,7 +12,6 @@ import com.leosimas.mvvm.movies.GlideApp;
 import com.leosimas.mvvm.movies.R;
 import com.leosimas.mvvm.movies.bean.Genre;
 import com.leosimas.mvvm.movies.bean.Movie;
-import com.leosimas.mvvm.movies.service.MoviesAPI;
 import com.leosimas.mvvm.movies.ui.activity.movie.MovieDetailsActivity_;
 import com.leosimas.mvvm.movies.util.FormatUtils;
 
@@ -52,7 +51,7 @@ public class MovieView extends RelativeLayout {
     public void bind(Movie movie) {
         this.movie = movie;
 
-        String posterUrl = MoviesAPI.getPosterFullUrl(movie);
+        String posterUrl = movie.getPosterFullUrl();
         if ( posterUrl != null ) {
             GlideApp.with(this.getContext())
                 .load( posterUrl )
