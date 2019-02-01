@@ -2,7 +2,7 @@ package com.leosimas.mvvm.movies.viewmodel;
 
 import android.app.Application;
 
-import com.leosimas.mvvm.movies.model.LoadingState;
+import com.leosimas.mvvm.movies.bean.ViewState;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -11,19 +11,50 @@ import androidx.lifecycle.MutableLiveData;
 
 public class BaseViewModel extends AndroidViewModel {
 
-    protected LoadingState loadingState = new LoadingState();
-    protected MutableLiveData<LoadingState> loadingLive = new MutableLiveData<>();
-    protected MutableLiveData<Integer> toastMessage = new MutableLiveData<>();
+    private MutableLiveData<ViewState> viewState = new MutableLiveData<>();
+    protected MutableLiveData<Integer> toastMessage = new SingleLiveEvent<>();
 
     public BaseViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public LiveData<LoadingState> getLoadingState() {
-        return loadingLive;
+    public LiveData<ViewState> getViewState() {
+        return viewState;
     }
 
     public LiveData<Integer> getToastMessage() {
         return toastMessage;
+    }
+
+    protected void setLoadingState() {
+        setViewState(false, true);
+    }
+
+    protected void setErrorState() {
+        setViewState(true, false);
+    }
+
+    protected void setNormalState() {
+        setViewState(false, false);
+    }
+
+    private void setViewState(boolean isError, boolean isLoading) {
+        ViewState value = viewState.getValue();
+        if (value == null) {
+            value = new ViewState();
+        }
+
+        value.setError(isError);
+        value.setLoading(isLoading);
+        viewState.setValue(value);
+    }
+
+    protected boolean isLoading() {
+        ViewState value = viewState.getValue();
+        if (value == null) {
+            return false;
+        }
+
+        return value.isLoading();
     }
 }

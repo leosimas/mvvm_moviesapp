@@ -1,4 +1,4 @@
-package com.leosimas.mvvm.movies.model;
+package com.leosimas.mvvm.movies.bean;
 
 import java.util.List;
 

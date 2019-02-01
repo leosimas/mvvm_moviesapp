@@ -1,6 +1,7 @@
 package com.leosimas.mvvm.movies.ui.activity.main;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,8 +13,8 @@ import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.leosimas.mvvm.movies.R;
-import com.leosimas.mvvm.movies.model.LoadingState;
-import com.leosimas.mvvm.movies.model.Movie;
+import com.leosimas.mvvm.movies.bean.ViewState;
+import com.leosimas.mvvm.movies.bean.Movie;
 import com.leosimas.mvvm.movies.ui.adapter.MoviesViewAdapter;
 import com.leosimas.mvvm.movies.ui.view.InfiniteRecyclerView;
 import com.leosimas.mvvm.movies.util.AppUtils;
@@ -33,6 +34,8 @@ import androidx.lifecycle.ViewModelProviders;
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "TESTE";
 
     @ViewById
     protected InfiniteRecyclerView recyclerView;
@@ -86,20 +89,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViewModel() {
+        Log.d(TAG, "initViewModel");
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         mainViewModel.getMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
+                Log.d(TAG, "observe movies: " + movies);
                 recyclerView.showList(movies);
             }
         });
-        mainViewModel.getLoadingState().observe(this, new Observer<LoadingState>() {
+        mainViewModel.getViewState().observe(this, new Observer<ViewState>() {
             @Override
-            public void onChanged(LoadingState loadingState) {
-                if (loadingState.isError()) {
+            public void onChanged(ViewState viewState) {
+                Log.d(TAG, "observe viewState: " + viewState);
+                if (viewState.isError()) {
                     recyclerView.showError();
-                } else if ( loadingState.isLoading() ) {
+                } else if ( viewState.isLoading() ) {
                     recyclerView.showLoading();
                 }
             }
@@ -107,19 +113,19 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.getSearchState().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isSearchState) {
+                Log.d(TAG, "observe search: " + isSearchState);
                 changeSearchMode(isSearchState);
             }
         });
         mainViewModel.getToastMessage().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer resString) {
+                Log.d(TAG, "observe toast: " + resString);
                 if (resString != null) {
                     AppUtils.showToastShort(MainActivity.this, resString);
                 }
             }
         });
-
-        mainViewModel.requestMovies();
     }
 
     private void changeSearchMode(Boolean isSearchState) {
@@ -164,12 +170,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem searchItem = menu.getItem(0);
-        searchItem.setVisible( !mainViewModel.isSearchMode() );
+        searchItem.setVisible( !mainViewModel.getSearchState().getValue() );
         return super.onPrepareOptionsMenu(menu);
     }
 
     private void doBack() {
-        if ( mainViewModel.isSearchMode() ) {
+        if ( mainViewModel.getSearchState().getValue() ) {
             mainViewModel.setSearchMode(false);
             return;
         }

@@ -1,7 +1,7 @@
 package com.leosimas.mvvm.movies.service;
 
-import com.leosimas.mvvm.movies.model.GenreResult;
-import com.leosimas.mvvm.movies.model.MoviePage;
+import com.leosimas.mvvm.movies.bean.GenreResult;
+import com.leosimas.mvvm.movies.bean.MoviePage;
 
 import java.util.Map;
 

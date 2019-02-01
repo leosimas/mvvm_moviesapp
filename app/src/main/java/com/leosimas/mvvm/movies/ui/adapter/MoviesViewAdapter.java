@@ -2,7 +2,7 @@ package com.leosimas.mvvm.movies.ui.adapter;
 
 import android.view.ViewGroup;
 
-import com.leosimas.mvvm.movies.model.Movie;
+import com.leosimas.mvvm.movies.bean.Movie;
 import com.leosimas.mvvm.movies.ui.view.movie.MovieView;
 import com.leosimas.mvvm.movies.ui.view.movie.MovieView_;
 

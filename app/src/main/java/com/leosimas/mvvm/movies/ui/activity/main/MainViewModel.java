@@ -3,8 +3,8 @@ package com.leosimas.mvvm.movies.ui.activity.main;
 import android.app.Application;
 
 import com.leosimas.mvvm.movies.R;
-import com.leosimas.mvvm.movies.model.Movie;
-import com.leosimas.mvvm.movies.model.MoviePage;
+import com.leosimas.mvvm.movies.bean.Movie;
+import com.leosimas.mvvm.movies.bean.MoviePage;
 import com.leosimas.mvvm.movies.service.CallAdapter;
 import com.leosimas.mvvm.movies.service.MoviesAPI;
 import com.leosimas.mvvm.movies.service.MoviesAPI_;
@@ -20,8 +20,6 @@ import androidx.lifecycle.MutableLiveData;
 public class MainViewModel extends BaseViewModel {
 
     private MoviesAPI api;
-
-    private boolean searchMode = false;
 
     private MoviePage upcomingMoviesLastPage;
     private MoviePage currentMoviesLastPage = new MoviePage();
@@ -43,15 +41,14 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public @NonNull LiveData<List<Movie>> getMovies() {
+        if (movies.getValue() == null && !isLoading()) {
+            this.requestMovies();
+        }
         return movies;
     }
 
     public @NonNull LiveData<Boolean> getSearchState() {
         return searchState;
-    }
-
-    public boolean isSearchMode() {
-        return searchMode;
     }
 
     public void requestMovies() {
@@ -64,11 +61,11 @@ public class MainViewModel extends BaseViewModel {
 
     private void requestMovies(String query) {
         int nextPage = currentMoviesLastPage.getPage() + 1;
-        if (searchMode) {
+        if (searchState.getValue()) {
             if ( query == null ) {
                 query = lastSearchQuery;
             } else if (query.isEmpty()) {
-                toastMessage.postValue(R.string.type_movie_name);
+                toastMessage.setValue(R.string.type_movie_name);
                 return;
             } else if (!lastSearchQuery.equals(query)) {
                 lastSearchQuery = query;
@@ -81,27 +78,23 @@ public class MainViewModel extends BaseViewModel {
             callAdapter = api.upcoming(nextPage);
         }
 
-        loadingState.setError(false);
-        loadingState.setLoading(true);
-        loadingLive.postValue(loadingState);
+        setLoadingState();
 
         callAdapter.enqueue(new MoviesAPI.Callback<MoviePage>() {
             @Override
             public void onSuccess(MoviePage result) {
                 List<Movie> list;
-                if (searchMode) {
+                if (searchState.getValue()) {
                     list = searchMovies;
                     if (list.isEmpty()) {
-                        toastMessage.postValue(R.string.no_movie_found);
+                        toastMessage.setValue(R.string.no_movie_found);
                     }
                 } else {
                     upcomingMoviesLastPage = result;
                     list = upcomingMovies;
                 }
 
-                loadingState.setError(false);
-                loadingState.setLoading(false);
-                loadingLive.postValue(loadingState);
+                setNormalState();
 
                 currentMoviesLastPage = result;
                 list.addAll( result.getResults() );
@@ -110,15 +103,12 @@ public class MainViewModel extends BaseViewModel {
 
             @Override
             public void onFailure() {
-                loadingState.setError(true);
-                loadingState.setLoading(false);
-                loadingLive.postValue(loadingState);
+                setErrorState();
             }
         });
     }
 
     public void setSearchMode(boolean searchMode) {
-        this.searchMode = searchMode;
         callAdapter.cancel();
 
         List<Movie> list;

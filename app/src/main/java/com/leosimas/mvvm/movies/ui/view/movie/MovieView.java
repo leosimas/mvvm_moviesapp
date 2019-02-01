@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.leosimas.mvvm.movies.GlideApp;
 import com.leosimas.mvvm.movies.R;
-import com.leosimas.mvvm.movies.model.Genre;
-import com.leosimas.mvvm.movies.model.Movie;
+import com.leosimas.mvvm.movies.bean.Genre;
+import com.leosimas.mvvm.movies.bean.Movie;
 import com.leosimas.mvvm.movies.service.MoviesAPI;
 import com.leosimas.mvvm.movies.ui.activity.movie.MovieDetailsActivity_;
 import com.leosimas.mvvm.movies.util.FormatUtils;

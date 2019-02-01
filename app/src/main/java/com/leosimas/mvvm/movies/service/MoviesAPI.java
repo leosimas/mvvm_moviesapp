@@ -6,11 +6,10 @@ import android.util.SparseArray;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.leosimas.mvvm.movies.BuildConfig;
-import com.leosimas.mvvm.movies.model.Genre;
-import com.leosimas.mvvm.movies.model.GenreResult;
-import com.leosimas.mvvm.movies.model.Movie;
-import com.leosimas.mvvm.movies.model.MoviePage;
+import com.leosimas.mvvm.movies.bean.Genre;
+import com.leosimas.mvvm.movies.bean.GenreResult;
+import com.leosimas.mvvm.movies.bean.Movie;
+import com.leosimas.mvvm.movies.bean.MoviePage;
 import com.leosimas.mvvm.movies.service.exception.NoNetworkAvailable;
 import com.leosimas.mvvm.movies.service.json.DateDeserializer;
 
