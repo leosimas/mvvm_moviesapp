@@ -30,6 +30,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -114,11 +115,15 @@ public class MoviesAPI {
         return queryMap;
     }
 
-    public CallAdapter<MoviePage> upcoming(int page) {
-        Map<String, String> queryMap = this.createQueryMap();
-        queryMap.put("page", ""+page);
+    private CallAdapter<MoviePage> requestMovies(Map<String, String> queryMap, boolean isSearch) {
+        Call<MoviePage> call;
+        if (isSearch) {
+            call = service.search(queryMap);
+        } else {
+            call = service.upcoming(queryMap);
+        }
 
-        CallAdapter<MoviePage> callAdapter = new CallAdapter<>(service.upcoming(queryMap));
+        CallAdapter<MoviePage> callAdapter = new CallAdapter<>(call);
         callAdapter.setInterceptor(new CallAdapter.Interceptor<MoviePage>() {
             @Override
             public void before(CallAdapter.Task task) {
@@ -135,6 +140,19 @@ public class MoviesAPI {
             }
         });
         return callAdapter;
+    }
+
+    public CallAdapter<MoviePage> upcoming(int page) {
+        Map<String, String> queryMap = this.createQueryMap();
+        queryMap.put("page", ""+page);
+        return this.requestMovies(queryMap, false);
+    }
+
+    public CallAdapter<MoviePage> search(String query, int page) {
+        Map<String, String> queryMap = this.createQueryMap();
+        queryMap.put("query", query);
+        queryMap.put("page", ""+page);
+        return this.requestMovies(queryMap, true);
     }
 
     private void fillMoviesData(List<Movie> movies) {
@@ -171,13 +189,6 @@ public class MoviesAPI {
                 task.onDone(false);
             }
         });
-    }
-
-    public CallAdapter<MoviePage> search(String query, int page) {
-        Map<String, String> queryMap = this.createQueryMap();
-        queryMap.put("query", query);
-        queryMap.put("page", ""+page);
-        return new CallAdapter<>(service.search(queryMap));
     }
 
     public CallAdapter<GenreResult> genres() {

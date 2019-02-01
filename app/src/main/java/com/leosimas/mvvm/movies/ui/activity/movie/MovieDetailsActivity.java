@@ -54,6 +54,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             GlideApp.with(this)
                 .load( backdropUrl )
                 .placeholder(R.drawable.picture)
+                .fallback(R.drawable.picture)
                 .error(R.drawable.cloud_error)
                 .centerCrop()
                 .into(imageBackdrop);

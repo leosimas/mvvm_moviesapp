@@ -51,15 +51,13 @@ public class MovieView extends RelativeLayout {
     public void bind(Movie movie) {
         this.movie = movie;
 
-        String posterUrl = movie.getPosterFullUrl();
-        if ( posterUrl != null ) {
-            GlideApp.with(this.getContext())
-                .load( posterUrl )
-                .placeholder(R.drawable.picture)
-                .error(R.drawable.cloud_error)
-                .fitCenter()
-                .into(imagePoster);
-        }
+        GlideApp.with(this.getContext())
+            .load( movie.getPosterFullUrl() )
+            .placeholder(R.drawable.picture)
+            .fallback(R.drawable.picture)
+            .error(R.drawable.cloud_error)
+            .fitCenter()
+            .into(imagePoster);
 
         textTitle.setText(movie.getTitle());
         if ( movie.getTitle().equals( movie.getOriginalTitle() ) ) {
