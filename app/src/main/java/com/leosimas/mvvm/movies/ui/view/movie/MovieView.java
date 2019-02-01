@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.leosimas.mvvm.movies.GlideApp;
 import com.leosimas.mvvm.movies.R;
 import com.leosimas.mvvm.movies.bean.Genre;
@@ -25,7 +27,10 @@ import java.util.List;
 public class MovieView extends RelativeLayout {
 
     @ViewById
-    TextView textTitle, textOriginalTitle, textGenres, textReleaseDate;
+    TextView textTitle, textOriginalTitle, textReleaseDate;
+
+    @ViewById
+    ChipGroup chipGroup;
 
     @ViewById
     ImageView imagePoster;
@@ -69,15 +74,21 @@ public class MovieView extends RelativeLayout {
 
         List<Genre> genreList = movie.getGenres();
         if ( genreList != null && !genreList.isEmpty() ) {
-            StringBuilder strGenres = new StringBuilder(genreList.get(0).getName());
-            for (int i = 1; i < genreList.size(); i++) {
-                strGenres.append(" ").append(genreList.get(i).getName());
+            for (Genre genre : genreList) {
+                Chip chip = this.createChip();
+                chip.setText( genre.getName() );
+                chipGroup.addView( chip );
             }
-            textGenres.setText(strGenres.toString());
         }
 
         String date = FormatUtils.formatDate(getContext(), movie.getReleaseDate());
         textReleaseDate.setText( date );
+    }
+
+    private Chip createChip() {
+        Chip chip = new Chip(getContext());
+        chip.setTextAppearance(R.style.TextAppearance_AppCompat_Small);
+        return chip;
     }
 
     @Click
