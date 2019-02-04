@@ -87,7 +87,9 @@ public class MovieView extends RelativeLayout {
 
     private Chip createChip() {
         Chip chip = new Chip(getContext());
-        chip.setTextAppearance(R.style.TextAppearance_AppCompat_Small);
+        chip.setEnabled(false);
+        chip.setChipBackgroundColorResource(R.color.gray_light);
+        chip.setTextColor(getResources().getColor(android.R.color.black));
         return chip;
     }
 
